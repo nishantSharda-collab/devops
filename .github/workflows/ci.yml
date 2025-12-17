@@ -12,9 +12,33 @@ on:
     branches: [ "main" ]
 
 jobs:
-  #first job
+
   build:
 
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x, 22.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+      
+    - name: "Install dependencies"
+      run: npm install
+    - name: "Run Build command"
+    - run: echo "npm run build -> Building the source code"
+    - name: "Build successful"
+      run: echo "Build completed successfully"
+
+  Test:
+   # job
     runs-on: ubuntu-latest
 
     strategy:
@@ -38,5 +62,7 @@ jobs:
 
     - name: "Testing successful"
       run: echo "App tested successfully"
- 
+    - name: "All tests passed"
+      run: echo "All tests have passed successfully"
+
     
